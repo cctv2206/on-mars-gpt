@@ -6,7 +6,13 @@ import { getWeatherData } from '../services/weather';
 
 app.get('/api', (req, res) => {
     res.json({
-        message: 'Welcome to ExpressWeather! Ask ChatGPT for the weather in your city.',
+        message: 'Welcome to Mars!',
+    });
+});
+
+app.get('/api/hello', (req, res) => {
+    res.json({
+        message: 'Welcome to Mars! Remember, whatever happens on Mars, stays on Mars.',
     });
 });
 
