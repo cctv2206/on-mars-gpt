@@ -11,7 +11,7 @@ app.get('/api', (req, res) => {
 });
 
 app.get('/api/weather', async (req, res) => {
-    let location = req.query.location || 'San Francisco';
+    let location = req.query.location as string || 'San Francisco';
 
     const response = await getWeatherData(location);
 

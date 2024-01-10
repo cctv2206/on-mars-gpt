@@ -1,6 +1,6 @@
 import fetch from "node-fetch";
 
-export const getWeatherData = async (location) => {
+export const getWeatherData = async (location: string) => {
     const API_KEY = process.env.WEATHER_API_KEY;
 
     if (!API_KEY) {
