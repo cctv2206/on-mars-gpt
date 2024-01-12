@@ -1,29 +1,41 @@
 import express from 'express';
+import { Pool } from 'pg';
+import { User } from '../model/user';
+import { authenticate } from '../middleware/auth';
+import { apiUpdateUserProfile } from '../services/user.service';
+
+declare global {
+    namespace Express {
+        interface Request {
+            user?: User;
+        }
+    }
+}
 
 const app = express();
-
-import { getWeatherData } from '../services/weather';
-
-app.get('/api', (req, res) => {
-    res.json({
-        message: 'Welcome to Mars!',
-    });
+const pool = new Pool({
+    connectionString: process.env.POSTGRES_URL + "?sslmode=require",
+    max: 500,
 });
 
-app.get('/api/hello', (req, res) => {
+app.get('/api', (req, res) => {
     res.json({
         message: 'Welcome to Mars! Remember, whatever happens on Mars, stays on Mars.',
     });
 });
 
-app.get('/api/weather', async (req, res) => {
-    let location = req.query.location as string || 'San Francisco';
+app.use(authenticate(pool));
 
-    const response = await getWeatherData(location);
-
-    return res.json({
-        ...response,
+// get user profile
+app.get('/api/user/profile', (req, res) => {
+    res.json({
+        status: 'success',
+        data: req.user,
+        message: 'If the user has no username, remember to ask the user to set one. Also ask user to set preferred language.',
     });
 });
+
+// update user profile
+app.post('/api/user/profile', apiUpdateUserProfile(pool));
 
 export default app;

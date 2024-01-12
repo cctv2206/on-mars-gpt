@@ -1,0 +1,98 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "On Mars APIs",
+    "description": "",
+    "version": "1.0.0"
+  },
+  "tags": [],
+  "paths": {
+    "/api/user/profile": {
+      "post": {
+        "summary": "Update user profile using POST",
+        "deprecated": false,
+        "description": "Update the user profile using POST. User could use this to update their username and preferred language",
+        "operationId": "updateUserProfileUsingPOST",
+        "tags": [],
+        "parameters": [],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UserProfile"
+              },
+              "example": ""
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized or find user failed",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      },
+      "get": {
+        "summary": "Get User Profile",
+        "deprecated": false,
+        "description": "get the current user profile",
+        "operationId": "getUserProfileUsingGET",
+        "tags": [],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserProfile"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "UserProfile": {
+        "properties": {
+          "name": {
+            "type": "string",
+            "title": "name"
+          },
+          "language": {
+            "type": "string",
+            "title": "language"
+          }
+        },
+        "type": "object",
+        "required": [],
+        "title": "UserProfile"
+      }
+    },
+    "securitySchemes": {}
+  },
+  "servers": [
+    {
+      "url": "https://mars.123games.fun"
+    }
+  ]
+}

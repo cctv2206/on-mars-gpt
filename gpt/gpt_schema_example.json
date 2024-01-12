@@ -1,0 +1,245 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "AIME",
+    "description": "",
+    "version": "1.0.0"
+  },
+  "tags": [],
+  "paths": {
+    "/gpt/user/inscribe": {
+      "put": {
+        "summary": "Inscribe",
+        "deprecated": false,
+        "description": "useful when user inscribes a json like data like { 'p': 'GPT20', 'op': 'mint', 'tick': 'GPT', 'amount': '1000', 'ref': 'xxxxxx' }",
+        "operationId": "inscribeUsingPUT",
+        "tags": [],
+        "parameters": [],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/InscribeModel"
+              },
+              "example": ""
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/gpt/miner/status": {
+      "get": {
+        "summary": "Get Miner Status",
+        "deprecated": false,
+        "description": "get the miner status",
+        "operationId": "getMinerStatusUsingGET",
+        "tags": [],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/gpt/share": {
+      "get": {
+        "summary": "Fetch refer code for user to share",
+        "deprecated": false,
+        "description": "Get the inscription data for user to share",
+        "operationId": "shareUsingGET",
+        "tags": [],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/gpt/boost": {
+      "get": {
+        "summary": "Return the boost link for user to boost the mining speed",
+        "deprecated": false,
+        "description": "Get the boost link for user to boost the mining speed",
+        "operationId": "boostUsingGET",
+        "tags": [],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/gpt/reward": {
+      "get": {
+        "summary": "Get reward link for user to claim the mining reward",
+        "deprecated": false,
+        "description": "Get reward link for user to claim the mining reward",
+        "operationId": "rewardUsingGET",
+        "tags": [],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "HTTPValidationError": {
+        "properties": {
+          "detail": {
+            "items": {
+              "$ref": "#/components/schemas/ValidationError"
+            },
+            "type": "array",
+            "title": "Detail"
+          }
+        },
+        "type": "object",
+        "title": "HTTPValidationError",
+        "x-apifox-orders": [
+          "detail"
+        ],
+        "x-apifox-ignore-properties": [],
+        "x-apifox-folder": "Schemas"
+      },
+      "ValidationError": {
+        "properties": {
+          "loc": {
+            "items": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "integer"
+                }
+              ]
+            },
+            "type": "array",
+            "title": "Location"
+          },
+          "msg": {
+            "type": "string",
+            "title": "Message"
+          },
+          "type": {
+            "type": "string",
+            "title": "Error Type"
+          }
+        },
+        "type": "object",
+        "required": [
+          "loc",
+          "msg",
+          "type"
+        ],
+        "title": "ValidationError",
+        "x-apifox-orders": [
+          "loc",
+          "msg",
+          "type"
+        ],
+        "x-apifox-ignore-properties": [],
+        "x-apifox-folder": "Schemas"
+      },
+      "InscribeModel": {
+        "properties": {
+          "p": {
+            "type": "string",
+            "title": "P"
+          },
+          "op": {
+            "type": "string",
+            "title": "Op"
+          },
+          "tick": {
+            "type": "string",
+            "title": "Tick"
+          },
+          "ref": {
+            "type": "string",
+            "title": "ref"
+          }
+        },
+        "type": "object",
+        "required": [
+          "p",
+          "op",
+          "tick",
+          "ref"
+        ],
+        "title": "InscribeModel",
+        "x-apifox-orders": [
+          "p",
+          "op",
+          "tick",
+          "amount"
+        ],
+        "x-apifox-ignore-properties": [],
+        "x-apifox-folder": "Schemas"
+      }
+    },
+    "securitySchemes": {}
+  },
+  "servers": [
+    {
+      "url": "https://gpts.gptminer.io"
+    }
+  ]
+}
