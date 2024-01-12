@@ -4,7 +4,8 @@ import { User } from "../model/user";
 
 export const apiUpdateUserProfile = (pool: Pool) => {
   return async (req: Request, res: Response) => {
-    const { username, language } = req.body;
+    // todo: send data through body
+    const { username, language } = req.params;
     let user = req.user as User;
     
     if (username) {
