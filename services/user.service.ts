@@ -8,6 +8,8 @@ export const apiUpdateUserProfile = (pool: Pool) => {
     const { username, language } = req.params;
     let user = req.user as User;
     
+
+    // todo: username should be unique
     if (username) {
       user.username = username;
     }

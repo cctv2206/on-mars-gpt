@@ -38,11 +38,34 @@ app.get('/api/user/profile', (req, res) => {
 // update user profile
 app.post('/api/user/profile', apiUpdateUserProfile(pool));
 
+// todo: remove this
 app.get('/api/user/id', (req, res) => {
     const openaiUserId = req.header('openai-ephemeral-user-id');
     res.json({
         message: 'Welcome to Mars! Your id is ' + openaiUserId
     });
 });
+
+app.get('/api/location/enter', (req, res) => {
+
+})
+
+app.post('/api/location/leave', (req, res) => {
+
+})
+
+app.post('/api/data', (req, res) => {
+    const body = req.body;
+    console.log('body', body);
+    if (body) {
+        res.json({
+            message: 'Data received'
+        });
+    } else {
+        res.status(200).json({
+            message: 'Empty body'
+        });
+    }
+})
 
 export default app;

@@ -6,6 +6,31 @@ CREATE TABLE IF NOT EXISTS users (
   language VARCHAR(255) NOT NULL DEFAULT 'English'
 );
 
+-- Create town records table
+CREATE TABLE IF NOT EXISTS town_records (
+  id SERIAL PRIMARY KEY,
+  coordinates VARCHAR(255) NOT NULL,
+  user_id INT NOT NULL,
+  content TEXT NOT NULL,
+  created_at TIMESTAMP DEFAULT NOW()
+)
+
+-- Create world records table
+CREATE TABLE IF NOT EXISTS world_records (
+  id SERIAL PRIMARY KEY,
+  town_record_id INT NOT NULL,
+  created_at TIMESTAMP DEFAULT NOW(),
+);
+
+-- Create location_status table
+CREATE TABLE IF NOT EXISTS location_status (
+    location_id SERIAL PRIMARY KEY,
+    coordinates VARCHAR(255) NOT NULL UNIQUE,
+    occupied BOOLEAN NOT NULL DEFAULT FALSE,
+    occupied_by INT,  -- user_id of the player occupying the location
+    occupied_since TIMESTAMP
+);
+
 -- Create referrals table
 CREATE TABLE referrals (
   id SERIAL PRIMARY KEY,

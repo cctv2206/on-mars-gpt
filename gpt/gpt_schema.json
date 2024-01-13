@@ -68,6 +68,28 @@
           }
         }
       }
+    },
+    "/api/user/id": {
+      "get": {
+        "summary": "Get User ID",
+        "deprecated": false,
+        "description": "get the current user id",
+        "operationId": "getUserIdUsingGET",
+        "tags": [],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
     }
   },
   "components": {
