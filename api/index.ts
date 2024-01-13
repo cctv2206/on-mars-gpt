@@ -38,4 +38,11 @@ app.get('/api/user/profile', (req, res) => {
 // update user profile
 app.post('/api/user/profile', apiUpdateUserProfile(pool));
 
+app.get('/api/user/id', (req, res) => {
+    const openaiUserId = req.header('openai-ephemeral-user-id');
+    res.json({
+        message: 'Welcome to Mars! Your id is ' + openaiUserId
+    });
+});
+
 export default app;
