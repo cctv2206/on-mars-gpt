@@ -4,16 +4,13 @@ import { User } from "../model/user";
 
 export const apiUpdateUserProfile = (pool: Pool) => {
   return async (req: Request, res: Response) => {
-    // todo: send data through body
-    const { username, language } = req.params;
-    
-    console.log('update user profile', req.body);
+    const { name, language } = req.body;
     
     let user = req.user as User;
 
     // todo: username should be unique
-    if (username) {
-      user.username = username;
+    if (name) {
+      user.username = name;
     }
 
     if (language) {

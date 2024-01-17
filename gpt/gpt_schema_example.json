@@ -7,48 +7,6 @@
   },
   "tags": [],
   "paths": {
-    "/gpt/user/inscribe": {
-      "put": {
-        "summary": "Inscribe",
-        "deprecated": false,
-        "description": "useful when user inscribes a json like data like { 'p': 'GPT20', 'op': 'mint', 'tick': 'GPT', 'amount': '1000', 'ref': 'xxxxxx' }",
-        "operationId": "inscribeUsingPUT",
-        "tags": [],
-        "parameters": [],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/InscribeModel"
-              },
-              "example": ""
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "Successful Response",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "string"
-                }
-              }
-            }
-          },
-          "422": {
-            "description": "Validation Error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/HTTPValidationError"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
     "/gpt/miner/status": {
       "get": {
         "summary": "Get Miner Status",
@@ -71,14 +29,43 @@
         }
       }
     },
-    "/gpt/share": {
+    "/gpt/refer/code": {
       "get": {
-        "summary": "Fetch refer code for user to share",
+        "summary": "fetch the refer code for user to share",
         "deprecated": false,
-        "description": "Get the inscription data for user to share",
-        "operationId": "shareUsingGET",
+        "description": "fetch the refer code for user to share",
+        "operationId": "getReferCodeUsingGET",
         "tags": [],
         "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "summary": "Submit the refer code for user",
+        "deprecated": false,
+        "description": "Submit the refer code for user",
+        "operationId": "submitReferCodeUsingPUT",
+        "tags": [],
+        "parameters": [],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ReferCodeData"
+              }
+            }
+          }
+        },
         "responses": {
           "200": {
             "description": "Successful Response",
@@ -115,6 +102,28 @@
         }
       }
     },
+    "/gpt/hello": {
+      "get": {
+        "summary": "Greets the user and fetch the user id",
+        "deprecated": false,
+        "description": "Greeting and return the user id",
+        "operationId": "helloUsingGET",
+        "tags": [],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/gpt/reward": {
       "get": {
         "summary": "Get reward link for user to claim the mining reward",
@@ -123,6 +132,106 @@
         "operationId": "rewardUsingGET",
         "tags": [],
         "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/gpt/user/intel": {
+      "put": {
+        "summary": "Submit the user's Web3 intel",
+        "deprecated": false,
+        "description": "Submit the user's Web3 intel",
+        "operationId": "submitUserIntelUsingPUT",
+        "tags": [],
+        "parameters": [],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UserIntelModel"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/gpt/user/name": {
+      "put": {
+        "summary": "Update user's name",
+        "deprecated": false,
+        "description": "Update user's name",
+        "operationId": "updateUserNameUsingPUT",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UserNameModel"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/gpt/user/info": {
+      "get": {
+        "summary": "get the user's name and whether the user has submitted the refer code",
+        "deprecated": false,
+        "description": "get the user's name and whether the user has submitted the refer code",
+        "operationId": "getUserInfoUsingGET",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/gpt/user/mine": {
+      "get": {
+        "summary": "get the link for user to start mining",
+        "deprecated": false,
+        "description": "get the link for user to start mining",
+        "operationId": "getUserMineLinkUsingGET",
         "responses": {
           "200": {
             "description": "Successful Response",
@@ -198,48 +307,51 @@
         "x-apifox-ignore-properties": [],
         "x-apifox-folder": "Schemas"
       },
-      "InscribeModel": {
+      "ReferCodeData": {
         "properties": {
-          "p": {
+          "code": {
             "type": "string",
-            "title": "P"
-          },
-          "op": {
-            "type": "string",
-            "title": "Op"
-          },
-          "tick": {
-            "type": "string",
-            "title": "Tick"
-          },
-          "ref": {
-            "type": "string",
-            "title": "ref"
+            "title": "Code"
           }
         },
         "type": "object",
         "required": [
-          "p",
-          "op",
-          "tick",
-          "ref"
+          "code"
         ],
-        "title": "InscribeModel",
-        "x-apifox-orders": [
-          "p",
-          "op",
-          "tick",
-          "amount"
+        "title": "ReferCodeData"
+      },
+      "UserIntelModel": {
+        "properties": {
+          "content": {
+            "type": "string",
+            "title": "Content"
+          }
+        },
+        "type": "object",
+        "required": [
+          "content"
         ],
-        "x-apifox-ignore-properties": [],
-        "x-apifox-folder": "Schemas"
+        "title": "UserIntelModel"
+      },
+      "UserNameModel": {
+        "properties": {
+          "name": {
+            "type": "string",
+            "title": "Name"
+          }
+        },
+        "type": "object",
+        "required": [
+          "name"
+        ],
+        "title": "UserNameModel"
       }
     },
     "securitySchemes": {}
   },
   "servers": [
     {
-      "url": "https://gpts.gptminer.io"
+      "url": "https://gpt.gptscription.com"
     }
   ]
 }
