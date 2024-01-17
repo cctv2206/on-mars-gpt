@@ -3,6 +3,7 @@ import { Pool } from 'pg';
 import { User } from '../model/user';
 import { authenticate } from '../middleware/auth';
 import { apiUpdateUserProfile } from '../services/user.service';
+import { apiLocationEnter, apiLocationLeave } from '../services/location.service';
 
 declare global {
     namespace Express {
@@ -38,21 +39,17 @@ app.get('/api/user/profile', (req, res) => {
 // update user profile
 app.post('/api/user/profile', apiUpdateUserProfile(pool));
 
-// todo: remove this
-app.get('/api/user/id', (req, res) => {
-    const openaiUserId = req.header('openai-ephemeral-user-id');
-    res.json({
-        message: 'Welcome to Mars! Your id is ' + openaiUserId
-    });
-});
+// // todo: remove this
+// app.get('/api/user/id', (req, res) => {
+//     const openaiUserId = req.header('openai-ephemeral-user-id');
+//     res.json({
+//         message: 'Welcome to Mars! Your id is ' + openaiUserId
+//     });
+// });
 
-app.get('/api/location/enter', (req, res) => {
+app.get('/api/location/enter', apiLocationEnter(pool));
 
-})
-
-app.post('/api/location/leave', (req, res) => {
-
-})
+app.post('/api/location/leave', apiLocationLeave(pool));
 
 app.post('/api/data', (req, res) => {
     const body = req.body;

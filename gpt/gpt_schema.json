@@ -90,6 +90,23 @@
           }
         }
       }
+    },
+    "/api/data": {
+      "post": {
+        "summary": "Send user data using POST",
+        "deprecated": false,
+        "description": "Send user data as string through requestBody",
+        "operationId": "sendUserDataUsingPOST",
+        "requestBody": {
+          "content": {
+            "text/plain": {
+              "schema": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      }
     }
   },
   "components": {

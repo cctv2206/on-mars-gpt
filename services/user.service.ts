@@ -6,8 +6,10 @@ export const apiUpdateUserProfile = (pool: Pool) => {
   return async (req: Request, res: Response) => {
     // todo: send data through body
     const { username, language } = req.params;
-    let user = req.user as User;
     
+    console.log('update user profile', req.body);
+    
+    let user = req.user as User;
 
     // todo: username should be unique
     if (username) {
