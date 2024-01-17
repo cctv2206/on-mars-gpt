@@ -7,10 +7,10 @@ import { doInTxn } from "../util/db.util";
 
 export const apiLocationEnter = (pool: Pool) => {
   return async (req: Request, res: Response) => {
-    const { x, y } = req.params;
+    const { x, y } = req.query as {x: string, y: string};
     const coordinates = {
-      x: parseInt(x),
-      y: parseInt(y),
+      x: parseInt(x, 10),
+      y: parseInt(y, 10),
     }
 
     if (coordinates.x < -50 || coordinates.x > 50 || coordinates.y < -50 || coordinates.y > 50) {

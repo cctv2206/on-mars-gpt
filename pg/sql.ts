@@ -9,7 +9,7 @@ const pool = new Pool({
 });
 
 (async () => {
-  await doInTxn(pool, async (client) => {
+  const rows = await doInTxn(pool, async (client) => {
     const sql = `
       UPDATE location_status
       SET occupied = TRUE, occupied_by = $1, occupied_since = NOW()
@@ -17,43 +17,24 @@ const pool = new Pool({
       AND (occupied = FALSE OR (occupied = TRUE AND occupied_since <= NOW() - INTERVAL '2 hours'))
       returning *
     `;
-    const coordinates = { x: 2, y: 3 };
-    const values = [2, getCoordinatesString(coordinates)];
+    const coordinates = { x: 3, y: 4 };
+    const values = [1, getCoordinatesString(coordinates)];
     const result = await client.query(sql, values);
-    console.log('result:', result);
-    console.log('result.rows:', result.rows);
+    return result.rows;
   })
-  
-  // const client = await pool.connect();
-  // try {
-  //   await client.query('BEGIN');
-  //   const coordinates = { x: 2, y: 3 }
-  //   // const sql = `
-  //   //   UPDATE location_status
-  //   //   SET occupied = TRUE, occupied_by = $1, occupied_since = NOW()
-  //   //   WHERE coordinates = $2 
-  //   //   AND (occupied = FALSE OR (occupied = TRUE AND occupied_since <= NOW() - INTERVAL '30 seconds'))
-  //   //   returning *
-  //   // `;
 
+  // const rows = await doInTxn(pool, async (client) => {
   //   const sql = `
-  //     UPDATE location_status
-  //     SET occupied = TRUE, occupied_by = $1, occupied_since = NOW()
-  //     WHERE coordinates = $2
+  //     INSERT INTO location_status (coordinates)
+  //     VALUES ($1)
+  //     returning *
   //   `;
-  //   // const sql = `
-  //   // select * from location_status where coordinates = $1
-  //   // `
-  //   const values = [2, getCoordinatesString(coordinates)];
+  //   const coordinates = { x: 1, y: 1 };
+  //   const values = [getCoordinatesString(coordinates)];
   //   const result = await client.query(sql, values);
-  //   console.log('result:', result);
-  //   console.log('result.rows:', result.rows);
+  //   return result.rows;
+  // })
 
-  //   await client.query("COMMIT");
-  // } catch (error) {
-  //   await client.query('ROLLBACK');
-  //   console.log('error:', error);
-  // } finally {
-  //   client.release();
-  // }
+
+  console.log(rows);
 })();
