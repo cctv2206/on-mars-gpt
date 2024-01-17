@@ -68,6 +68,76 @@
         }
       }
     },
+    "/api/location/enter": {
+      "get": {
+        "summary": "Fetch history records of a location when user enters",
+        "deprecated": false,
+        "description": "Fetch history records of a location when user enters",
+        "operationId": "enterLocationUsingGET",
+        "parameters": [
+          {
+            "name": "x",
+            "in": "query",
+            "required": true,
+            "description": "The x coordinate of the location",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "y",
+            "in": "query",
+            "required": true,
+            "description": "The y coordinate of the location",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/location/leave": {
+      "post": {
+        "summary": "Update the records of a location when user leaves",
+        "deprecated": false,
+        "description": "Update the records of a location when user leaves",
+        "operationId": "updateLocationRecordsUsingPOST",
+        "tags": [],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LocationRecordModel"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/user/id": {
       "get": {
         "summary": "Get User ID",
@@ -84,23 +154,6 @@
                 "schema": {
                   "type": "string"
                 }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/api/data": {
-      "post": {
-        "summary": "Send user data using POST",
-        "deprecated": false,
-        "description": "Send user data as string through requestBody",
-        "operationId": "sendUserDataUsingPOST",
-        "requestBody": {
-          "content": {
-            "text/plain": {
-              "schema": {
-                "type": "string"
               }
             }
           }
@@ -124,6 +177,17 @@
         "type": "object",
         "required": [],
         "title": "UserProfile"
+      },
+      "LocationRecordModel": {
+        "properties": {
+          "record": {
+            "type": "string",
+            "title": "name"
+          }
+        },
+        "type": "object",
+        "required": ["record"],
+        "title": "LocationRecordModel"
       }
     },
     "securitySchemes": {}

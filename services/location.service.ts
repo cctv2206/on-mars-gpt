@@ -113,7 +113,7 @@ export const apiLocationLeave = (pool: Pool) => {
         VALUES ($1, $2, $3, $4)
         returning *
       `;
-      const townRecordsValues = [currentCoordinates, user.id, user.username, body.content];
+      const townRecordsValues = [currentCoordinates, user.id, user.username, body.record];
       const result = await client.query(townRecordsSql, townRecordsValues);
 
       return result.rows;
