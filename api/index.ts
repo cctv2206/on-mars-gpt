@@ -19,6 +19,12 @@ const pool = new Pool({
     max: 500,
 });
 
+// Middleware for parsing JSON bodies
+app.use(express.json());
+
+// Middleware for parsing URL-encoded bodies
+app.use(express.urlencoded({ extended: true }));
+
 app.get('/api', (req, res) => {
     res.json({
         message: 'Welcome to Mars! Remember, whatever happens on Mars, stays on Mars.',
