@@ -9,31 +9,47 @@ const pool = new Pool({
 });
 
 (async () => {
-  const rows = await doInTxn(pool, async (client) => {
-    const sql = `
-      UPDATE location_status
-      SET occupied = TRUE, occupied_by = $1, occupied_since = NOW()
-      WHERE coordinates = $2 
-      AND (occupied = FALSE OR (occupied = TRUE AND occupied_since <= NOW() - INTERVAL '2 hours'))
-      returning *
-    `;
-    const coordinates = { x: 3, y: 4 };
-    const values = [1, getCoordinatesString(coordinates)];
-    const result = await client.query(sql, values);
-    return result.rows;
-  })
-
   // const rows = await doInTxn(pool, async (client) => {
   //   const sql = `
-  //     INSERT INTO location_status (coordinates)
-  //     VALUES ($1)
+  //     UPDATE location_status
+  //     SET occupied = TRUE, occupied_by = $1, occupied_since = NOW()
+  //     WHERE coordinates = $2 
+  //     AND (occupied = FALSE OR (occupied = TRUE AND occupied_since <= NOW() - INTERVAL '2 hours'))
   //     returning *
   //   `;
-  //   const coordinates = { x: 1, y: 1 };
-  //   const values = [getCoordinatesString(coordinates)];
+  //   const coordinates = { x: 3, y: 4 };
+  //   const values = [1, getCoordinatesString(coordinates)];
   //   const result = await client.query(sql, values);
   //   return result.rows;
   // })
+
+  const rows = await doInTxn(pool, async (client) => {
+
+    const insertLocation = async (coordinates: { x: number, y: number }) => {
+      const sql = `
+        INSERT INTO location_status (coordinates)
+        VALUES ($1)
+        ON CONFLICT (coordinates) DO NOTHING
+        returning *;
+      `;
+      const values = [getCoordinatesString(coordinates)];
+      const result = await client.query(sql, values);
+      if (result.rows.length) {
+        console.log(`inserted: ${getCoordinatesString(coordinates)}`)
+      } else {
+        console.log(`conflict on: ${getCoordinatesString(coordinates)}`)
+      }
+    }
+
+    const limit = 10;
+    for (let x = -limit; x <= limit; x++) {
+      for (let y = -limit; y <= limit; y++) {
+        await insertLocation({ x, y });
+      }
+    }
+    
+    return 'DONE';
+  })
 
 
   console.log(rows);

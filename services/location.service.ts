@@ -4,6 +4,7 @@ import { User } from "../model/user";
 import { getCoordinatesString } from "../util/location.util";
 import { doInTxn } from "../util/db.util";
 
+const LOCATION_LIMIT = 10;
 
 export const apiLocationEnter = (pool: Pool) => {
   return async (req: Request, res: Response) => {
@@ -13,7 +14,7 @@ export const apiLocationEnter = (pool: Pool) => {
       y: parseInt(y, 10),
     }
 
-    if (coordinates.x < -50 || coordinates.x > 50 || coordinates.y < -50 || coordinates.y > 50) {
+    if (coordinates.x < -LOCATION_LIMIT || coordinates.x > LOCATION_LIMIT || coordinates.y < -LOCATION_LIMIT || coordinates.y > LOCATION_LIMIT) {
       res.json({
         status: 'error',
         message: 'Coordinates out of bounds. Please try another one.',
