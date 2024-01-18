@@ -81,7 +81,7 @@ export const apiLocationLeave = (pool: Pool) => {
     const currentCoordinatesRows = await doInTxn(pool, async (client) => {
       const sql = `
         SELECT * FROM location_status
-        WHERE occupied_by = $1 
+        WHERE occupied_by = $1 AND occupied = TRUE AND occupied_since >= NOW() - INTERVAL '2 hours'
       `;
       const values = [user.id];
       const result = await client.query(sql, values);
