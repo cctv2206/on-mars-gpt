@@ -6,9 +6,24 @@ import { doInTxn } from "../util/db.util";
 
 const LOCATION_LIMIT = 10;
 
+const clearUserOccupiedLocation = async (pool: Pool, userId: number) => {
+  const rows = await doInTxn(pool, async (client) => {
+    const sql = `
+      UPDATE location_status
+      SET occupied = FALSE, occupied_by = NULL, occupied_since = NULL
+      WHERE occupied_by = $1
+      returning *
+    `;
+    const values = [userId];
+    const result = await client.query(sql, values);
+    return result.rows;
+  });
+  return rows.length;
+}
+
 export const apiLocationEnter = (pool: Pool) => {
   return async (req: Request, res: Response) => {
-    const { x, y } = req.query as {x: string, y: string};
+    const { x, y } = req.query as { x: string, y: string };
     const coordinates = {
       x: parseInt(x, 10),
       y: parseInt(y, 10),
@@ -23,6 +38,28 @@ export const apiLocationEnter = (pool: Pool) => {
     }
 
     const user = req.user as User;
+
+    const currentLocationRows = await doInTxn(pool, async (client) => {
+      const sql = `
+        SELECT * FROM location_status
+        WHERE occupied_by = $1 AND occupied = TRUE
+      `;
+      const values = [user.id];
+      const result = await client.query(sql, values);
+      return result.rows;
+    })
+
+    if (currentLocationRows.length) {
+      // user is already occupying a location
+      res.json({
+        status: 'error',
+        data: {
+          userOccupyingLocation: true
+        },
+        message: 'Ask user to leave the current location first.',
+      });
+      return;
+    }
 
     const rows = await doInTxn(pool, async (client) => {
       const sql = `
@@ -41,7 +78,7 @@ export const apiLocationEnter = (pool: Pool) => {
     if (!rows.length) {
       res.json({
         status: 'error',
-        message: 'Location is already occupied.',
+        message: 'Location is already occupied. Please try another one.',
       });
       return;
     }
@@ -90,6 +127,15 @@ export const apiLocationLeave = (pool: Pool) => {
     });
 
     if (!currentCoordinatesRows.length) {
+      const locationsCleared = await clearUserOccupiedLocation(pool, user.id);
+      if (locationsCleared) {
+        res.json({
+          status: 'ok',
+          message: 'User has left the location.',
+        });
+        return;
+      }
+
       // location occupied by someone else due to timeout
       res.json({
         status: 'error',
@@ -127,6 +173,8 @@ export const apiLocationLeave = (pool: Pool) => {
       });
       return;
     }
+
+    await clearUserOccupiedLocation(pool, user.id);
 
     res.json({
       status: 'ok',
