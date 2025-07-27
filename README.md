@@ -42,8 +42,11 @@ This repository contains the open-source framework that powers On Mars. You can 
 - Node.js 18+
 - PostgreSQL database
 - PluginLab account (for plugin deployment)
+- ChatGPT Plus subscription (required for plugin access)
 
-### Local Development
+### 🛠 Local API Development
+
+**Note**: Local development allows you to test and develop the API endpoints, but the full game experience requires ChatGPT integration and can only be tested online.
 
 1. **Clone the repository**
    ```bash
@@ -72,14 +75,30 @@ This repository contains the open-source framework that powers On Mars. You can 
    npm run dev
    ```
 
-Your Mars adventure server is now running at `http://localhost:3000`!
+Your API server is now running at `http://localhost:3000`! You can test individual endpoints, but the AI-powered game mechanics require ChatGPT integration.
 
-### ChatGPT Plugin Setup
+### 🎮 Full Game Setup (ChatGPT Integration)
 
-1. Go to [PluginLab](https://app.pluginlab.ai)
-2. Create a new plugin using this repository
-3. Configure the OpenAPI schema from `gpt/gpt_schema.json`
-4. Deploy and activate in ChatGPT
+To experience or debug the complete game with AI storytelling and image generation:
+
+1. **Deploy your API** to a public URL (Vercel, Railway, etc.)
+
+2. **Configure ChatGPT Plugin via PluginLab**:
+   - Go to [PluginLab](https://app.pluginlab.ai)
+   - Create a new plugin using your deployed API URL
+   - Upload the OpenAPI schema from `gpt/gpt_schema.json`
+   - Configure authentication and settings
+
+3. **Test in ChatGPT**:
+   - Enable your plugin in ChatGPT
+   - Start with: "Take me to Mars coordinate 0,0"
+   - Experience the full AI-powered adventure!
+
+### 🔧 Development Workflow
+
+- **API Changes**: Test locally with tools like Postman/curl
+- **Game Logic**: Must be tested online through ChatGPT after deployment
+- **Prompt Tuning**: Edit `gpt/prompt.md` and redeploy to test AI behavior changes
 
 ## 🎯 How to Play
 
