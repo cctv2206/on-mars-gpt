@@ -28,6 +28,27 @@ This repository contains the open-source framework that powers On Mars. You can 
 - **Story Discovery**: Uncover hidden narratives scattered across the Martian landscape
 - **User-Driven Narrative**: Your choices shape not just your story, but the world itself
 
+## 🎮 Game Flow
+
+```mermaid
+flowchart TD
+    A["🚀 Enter ChatGPT<br/>Enable On Mars Plugin"] --> B["🎯 Choose Coordinates<br/>Land on Mars (x,y)"]
+    B --> C["🤖 Explore & Adventure<br/>with AI Companion"]
+    C --> D["🌍 Player Actions<br/>Shape the World"]
+    D --> E{Continue Exploring?}
+    E -->|Yes| C
+    E -->|No| F["📝 Leave Location<br/>Save Adventure Records"]
+    F --> G["✨ Until Next Adventure"]
+```
+
+## 🎯 How to Play
+
+1. **Enter ChatGPT** with the "On Mars" plugin enabled
+2. **Start your adventure**: "Take me to Mars coordinate 5,3"
+3. **Explore**: The AI will describe what you find and generate images
+4. **Interact**: Build, explore, meet characters, or create your own adventure
+5. **Leave your mark**: Your actions are saved and will affect future players
+
 ## 🛠 Technology Stack
 
 - **Backend**: Node.js + Express + TypeScript
@@ -99,14 +120,6 @@ To experience or debug the complete game with AI storytelling and image generati
 - **API Changes**: Test locally with tools like Postman/curl
 - **Game Logic**: Must be tested online through ChatGPT after deployment
 - **Prompt Tuning**: Edit `gpt/prompt.md` and redeploy to test AI behavior changes
-
-## 🎯 How to Play
-
-1. **Enter ChatGPT** with the "On Mars" plugin enabled
-2. **Start your adventure**: "Take me to Mars coordinate 5,3"
-3. **Explore**: The AI will describe what you find and generate images
-4. **Interact**: Build, explore, meet characters, or create your own adventure
-5. **Leave your mark**: Your actions are saved and will affect future players
 
 ## 📁 Project Structure
 
